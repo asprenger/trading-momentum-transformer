@@ -208,6 +208,7 @@ class ModelFeatures:
             valid = pd.concat(valid)
 
             test = test[test.ticker.isin(tickers)]
+
         else:
             trainvalid = df.loc[years < test_boundary]
             dates = np.sort(trainvalid.index.unique())
@@ -578,7 +579,7 @@ class ModelFeatures:
                 active_entries = np.ones((arr.shape[0], arr.shape[1], arr.shape[2]))
                 for i in range(batch_size):
                     active_entries[i, sequence_lengths[i] :, :] = 0
-                sequence_lengths = np.array(sequence_lengths, dtype=np.int)
+                sequence_lengths = np.array(sequence_lengths, dtype=int)
 
                 if "active_entries" not in data_map:
                     data_map["active_entries"] = [
