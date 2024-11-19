@@ -1,28 +1,33 @@
-from empyrical import sharpe_ratio
-import numpy as np
-from tensorflow import keras
+import os
+import json
 import tensorflow as tf
+from tensorflow import keras
 import pandas as pd
-from settings.default import QUANDL_TICKERS
+import numpy as np
 from mom_trans.model_inputs import ModelFeatures
+from data.symbols import ASSET_CLASS_MAPPING, SYMBOLS
+from mom_trans.classical_strategies import (
+    calc_net_returns
+)
+from settings.default import BACKTEST_AVERAGE_BASIS_POINTS
 
+from empyrical import (
+    sharpe_ratio,
+    calmar_ratio,
+    sortino_ratio,
+    max_drawdown,
+    downside_risk,
+    annual_return,
+    annual_volatility,
+)
 
 
 # python try_evaluate.py
 
-import json
-
-#with open('data.json', 'r') as file:
-#    data = json.load(file)
-
-def create_model():
-    hidden_layer_size = 20
-    dropout_rate = 0.2
-    max_gradient_norm = 1.0
-
+def create_model(hidden_layer_size:int, dropout_rate:int, time_steps:int, input_size:int):
     time_steps = 63
     input_size = 8
-    output_size = 1 # ????
+    output_size = 1
 
     input = keras.Input((time_steps, input_size))
     lstm = tf.keras.layers.LSTM(
@@ -97,79 +102,91 @@ def get_positions(
 
         return results, performance        
 
-def main():
 
-    features_file_path = "data/quandl_cpd_nonelbw.csv"
-    raw_data = pd.read_csv(features_file_path, index_col=0, parse_dates=True)
+def main():
+    input_data_path = "data/quandl_cpd_nonelbw.csv"
+    model_path = "results/experiment_quandl_100assets_lstm_cpnone_len63_notime_div_v1/2022-2025/best"
+
+    # load hyper parameter
+    hp_path = os.path.join(model_path, "hyperparameters.json")
+    with open(hp_path, 'r') as file:
+        hyper_params = json.load(file)
+
+    # load input data
+    raw_data = pd.read_csv(input_data_path, index_col=0, parse_dates=True)
     raw_data["date"] = raw_data["date"].astype("datetime64[ns]")
 
-    params = {
-        'architecture': 'LSTM', 
-        'total_time_steps': 63, 
-        'early_stopping_patience': 25, 
-        'multiprocessing_workers': 32, 
-        'num_epochs': 300, 
-        'fill_blank_dates': False, 
-        'split_tickers_individually': True, 
-        'random_search_iterations': 50, 
-        'evaluate_diversified_val_sharpe': True, 
-        'train_valid_ratio': 0.9, 
-        'time_features': False, 
-        'force_output_sharpe_length': None
-    }
-
     train_interval = (2010, 2022, 2025)
-    changepoint_lbws = None # depends on selected architecture
+    time_steps = 63
 
-    asset_class_dictionary = {
-        "QQQ": 'COMB',
-        "SMH": 'COMB',
-        "SOXX": 'COMB',
-        "SPY": 'COMB',
-        "XBI": 'COMB',
-        "XLC": 'COMB',
-        "XLE": 'COMB',
-        "XLF": 'COMB',
-        "XLK": 'COMB',
-        "XLRE": 'COMB',
-        "XLU": 'COMB',
-        "XLV": 'COMB',
-        "XLY": 'COMB',
-        "XLP": 'COMB',
-        "XLI": 'COMB',
-        "XLB": 'COMB'
-    }
-
+    # Note that many of the ModelFeature parameters
+    # depend on the model architecture
     model_features = ModelFeatures(
         raw_data,
-        params["total_time_steps"],
+        time_steps,
         start_boundary=train_interval[0],
         test_boundary=train_interval[1],
         test_end=train_interval[2],
-        changepoint_lbws=changepoint_lbws,
-        split_tickers_individually=params["split_tickers_individually"],
-        train_valid_ratio=params["train_valid_ratio"],
-        add_ticker_as_static=(params["architecture"] == "TFT"),
-        time_features=params["time_features"],
-        lags=params["force_output_sharpe_length"],
-        asset_class_dictionary=asset_class_dictionary,
+        changepoint_lbws=None,
+        split_tickers_individually=True,
+        train_valid_ratio=0.9,
+        add_ticker_as_static=False,
+        time_features=False,
+        lags=None,
+        asset_class_dictionary=ASSET_CLASS_MAPPING,
     )
 
-    best_model = create_model()
-    best_model.load_weights("results/experiment_quandl_100assets_lstm_cpnone_len63_notime_div_v1/2022-2025/best/checkpoints/checkpoint.weights.h5")
+    checkpoint_path = os.path.join(model_path, "checkpoints/checkpoint.weights.h5")
+    input_size = model_features.test_fixed['inputs'].shape[2]
+    best_model = create_model(hidden_layer_size=hyper_params['hidden_layer_size'], 
+                              dropout_rate=hyper_params['dropout_rate'],
+                              time_steps=time_steps,
+                              input_size=input_size)
+    
+    best_model.load_weights(checkpoint_path)
     best_model.summary()
 
+    if False:
+        date = model_features.test_sliding['date'][0][0][0]
+        ticker = model_features.test_sliding['identifier'][0][0][0]
+        print(model_features.test_sliding['outputs'][0][0][0])
 
-    print("Predicting on test set...")
+        foo = raw_data[raw_data['date']==date]
+        bar = foo[foo['ticker']==ticker]
+        print(bar['target_returns'])
 
-    results_sw, performance_sw = get_positions(
-        model_features.test_sliding,
-        best_model,
-        sliding_window=True
-    )
+    # Note we are testing on `model_features.test_sliding`. This has as output the target_rate 
+    # (as calculated by ModelFeatures) at the given date as output and a window of features up
+    # to this date as input.
+
+    results_sw, performance_sw = get_positions(model_features.test_sliding,
+                                               best_model,
+                                               sliding_window=True)
     print(f"performance (sliding window) = {performance_sw}")
+    
 
-    print(results_sw)
+    for ticker in SYMBOLS:
+        captured_returns = results_sw[results_sw['identifier']==ticker]['captured_returns']
+        print(ticker)
+        #print(f"Sharp Ratio: {sharpe_ratio(captured_returns)}")
+        #print(f"Annual Return: {annual_return(captured_returns)}")
+        #print(f"Max Drawdown: {max_drawdown(captured_returns)}")
+
+
+        perc_pos_return = len(captured_returns[captured_returns > 0.0]) / len(captured_returns)
+        profit_loss_ratio = np.mean(captured_returns[captured_returns >= 0.0]) / np.mean(np.abs(captured_returns[captured_returns < 0.0]))
+
+        #print(f"annual_volatility: {annual_volatility(captured_returns)}")
+        print(f"perc_pos_return: {perc_pos_return}")
+        #print(f"profit_loss_ratio: {profit_loss_ratio}")
+
+
+        print()
+
+    
+
+    
+
 
 if __name__ == "__main__":
     main()
