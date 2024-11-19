@@ -6,13 +6,17 @@ import pandas as pd
 from settings.default import QUANDL_TICKERS
 from mom_trans.model_inputs import ModelFeatures
 
-ASSET_CLASS_MAPPING = dict(zip(QUANDL_TICKERS, ["COMB"] * len(QUANDL_TICKERS)))
+
 
 # python try_evaluate.py
 
+import json
+
+#with open('data.json', 'r') as file:
+#    data = json.load(file)
 
 def create_model():
-    hidden_layer_size = 80
+    hidden_layer_size = 20
     dropout_rate = 0.2
     max_gradient_norm = 1.0
 
@@ -45,31 +49,6 @@ def create_model():
     model = keras.Model(inputs=input, outputs=output)
 
     return model
-
-def load_model_from_tf_checkpoint(checkpoint_dir):
-
-    # Create a new model
-    model = create_model()
-    
-    # Create checkpoint instance
-    checkpoint = tf.train.Checkpoint(model=model)
-    
-    # Restore the checkpoint
-    status = checkpoint.restore(tf.train.latest_checkpoint(checkpoint_dir))
-    status.expect_partial()  # Suppress warnings about incomplete restoration
-
-    return model
-
-    # TODO status ???
-    
-    # Convert to Keras format and save
-    #keras_path = "converted_model.keras"
-    #model.save(keras_path, save_format='keras')
-    
-    # Load the converted Keras model
-    #converted_model = keras.models.load_model(keras_path)
-    
-    #return converted_model
 
 def get_positions(
         data,
@@ -139,9 +118,27 @@ def main():
         'force_output_sharpe_length': None
     }
 
-    train_interval = (2014, 2022, 2025)
+    train_interval = (2010, 2022, 2025)
     changepoint_lbws = None # depends on selected architecture
-    asset_class_dictionary = ASSET_CLASS_MAPPING
+
+    asset_class_dictionary = {
+        "QQQ": 'COMB',
+        "SMH": 'COMB',
+        "SOXX": 'COMB',
+        "SPY": 'COMB',
+        "XBI": 'COMB',
+        "XLC": 'COMB',
+        "XLE": 'COMB',
+        "XLF": 'COMB',
+        "XLK": 'COMB',
+        "XLRE": 'COMB',
+        "XLU": 'COMB',
+        "XLV": 'COMB',
+        "XLY": 'COMB',
+        "XLP": 'COMB',
+        "XLI": 'COMB',
+        "XLB": 'COMB'
+    }
 
     model_features = ModelFeatures(
         raw_data,
@@ -158,17 +155,9 @@ def main():
         asset_class_dictionary=asset_class_dictionary,
     )
 
-    checkpoint_path = "results/experiment_quandl_100assets_lstm_cpnone_len63_notime_div_v1/2022-2025/best/checkpoints"
-    latest_checkpoint = tf.train.latest_checkpoint(checkpoint_path)
-    print(latest_checkpoint)
-
-    best_model = load_model_from_tf_checkpoint(latest_checkpoint)
+    best_model = create_model()
+    best_model.load_weights("results/experiment_quandl_100assets_lstm_cpnone_len63_notime_div_v1/2022-2025/best/checkpoints/checkpoint.weights.h5")
     best_model.summary()
-
-
-    y_hat = best_model.predict(X)
-    print(y_hat)
-    exit(0)
 
 
     print("Predicting on test set...")
@@ -179,6 +168,8 @@ def main():
         sliding_window=True
     )
     print(f"performance (sliding window) = {performance_sw}")
+
+    print(results_sw)
 
 if __name__ == "__main__":
     main()

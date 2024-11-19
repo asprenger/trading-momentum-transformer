@@ -8,9 +8,10 @@ from mom_trans.backtest import run_all_windows
 import numpy as np
 from functools import reduce
 
+from data.symbols import ASSET_CLASS_MAPPING
+
 # define the asset class of each ticker here - for this example we have not done this
 TEST_MODE = False
-ASSET_CLASS_MAPPING = dict(zip(QUANDL_TICKERS, ["COMB"] * len(QUANDL_TICKERS)))
 TRAIN_VALID_RATIO = 0.90
 TIME_FEATURES = False
 FORCE_OUTPUT_SHARPE_LENGTH = None
@@ -86,6 +87,8 @@ def main(
             (train_start, y, y + test_window_size)
             for y in range(test_start, test_end - 1)
         ]
+
+        print(f"Intervals: {intervals}")
 
         params = MODLE_PARAMS.copy()
         params["total_time_steps"] = lstm_time_steps

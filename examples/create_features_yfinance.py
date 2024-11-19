@@ -1,12 +1,9 @@
 import argparse
-import datetime as dt
 from typing import List
-
 import pandas as pd
-
+from data.symbols import SYMBOLS
 from data.pull_data import pull_quandl_sample_data
 from settings.default import (
-    QUANDL_TICKERS,
     CPD_QUANDL_OUTPUT_FOLDER,
     FEATURES_QUANDL_FILE_PATH,
 )
@@ -25,8 +22,6 @@ def main(
     extra_lbw: List[int],
 ):
     
-    tickers = ["QQQ", "SMH", "SOXX", "SPY", "XBI", "XLC", "XLE", "XLF", "XLK", "XLRE", "XLU", "XLV", "XLY", "XLP", "XLI", "XLB"]
-
     features = pd.concat(
         [
             deep_momentum_strategy_features(pull_quandl_sample_data(ticker)).assign(
@@ -71,7 +66,8 @@ def main(
         features_w_cpd.to_csv(output_file_path)
     else:
         features.to_csv(output_file_path)
-    print(output_file_path)
+
+    print(f"Save feature file: {output_file_path}")
 
 if __name__ == "__main__":
 
@@ -79,15 +75,6 @@ if __name__ == "__main__":
         """Returns settings from command line."""
 
         parser = argparse.ArgumentParser(description="Create Momentum Transformer input features")
-        # parser.add_argument(
-        #     "cpd_module_folder",
-        #     metavar="c",
-        #     type=str,
-        #     nargs="?",
-        #     default=CPD_QUANDL_OUTPUT_FOLDER_DEFAULT,
-        #     # choices=[],
-        #     help="Input folder for CPD outputs.",
-        # )
         parser.add_argument(
             "lookback_window_length",
             metavar="l",
@@ -97,15 +84,6 @@ if __name__ == "__main__":
             # choices=[],
             help="Set lookback window length",
         )
-        # parser.add_argument(
-        #     "output_file_path",
-        #     metavar="f",
-        #     type=str,
-        #     nargs="?",
-        #     default=FEATURES_QUANDL_FILE_PATH_DEFAULT,
-        #     # choices=[],
-        #     help="Output file location for csv.",
-        # )
         parser.add_argument(
             "extra_lbw",
             metavar="-e",
@@ -115,11 +93,10 @@ if __name__ == "__main__":
             # choices=[],
             help="Fill missing prices.",
         )
-
         args = parser.parse_known_args()[0]
 
         return (
-            QUANDL_TICKERS,
+            SYMBOLS,
             CPD_QUANDL_OUTPUT_FOLDER(args.lookback_window_length),
             args.lookback_window_length,
             FEATURES_QUANDL_FILE_PATH(args.lookback_window_length),

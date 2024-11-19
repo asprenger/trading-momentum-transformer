@@ -180,6 +180,7 @@ def save_results(
         asset_class_dictionary (Dict[str, str]): mapping of ticker to asset class
         extra_metrics (dict, optional): additional metrics to save. Defaults to {}.
     """
+
     asset_classes = ["ALL"]
     results_asset_class = [results_sw]
     if asset_class_dictionary:
@@ -219,11 +220,10 @@ def save_results(
                     results_ac_bps.set_index("time"), _basis_point_suffix(basis_points)
                 ),
             }
-        metrics = {**metrics, ac: ac_metrics}
+        metrics = {**metrics, ac: ac_metrics}    
 
     with open(os.path.join(output_directory, "results.json"), "w") as file:
         file.write(json.dumps(metrics, indent=4))
-
 
 def aggregate_and_save_all_windows(
     experiment_name: str,
@@ -313,6 +313,12 @@ def aggregate_and_save_all_windows(
                     )
         for bp in BACKTEST_AVERAGE_BASIS_POINTS:
             suffix = _basis_point_suffix(bp)
+
+            print("WARN WARN WARN")
+            print("Fix standard_window_size")
+            print("WARN WARN WARN")
+            standard_window_size=3 # FIX FIX FIX
+
             all_captured_returns = _captured_returns_from_all_windows(
                 experiment_name,
                 train_intervals,
@@ -327,6 +333,7 @@ def aggregate_and_save_all_windows(
                     ].tolist()
                 ),
                 captured_returns_col=f"captured_returns{suffix}",
+                standard_window_size=standard_window_size
             )
             yrs = pd.to_datetime(all_captured_returns.index).year
             for interval in train_intervals:
@@ -514,7 +521,10 @@ def run_single_window(
 
     # save model and get rid of the hp dir
     best_directory = os.path.join(directory, "best")
-    best_model.save_weights(os.path.join(best_directory, "checkpoints", "checkpoint"))
+    #best_model.save_weights(os.path.join(best_directory, "checkpoints", "checkpoint"))
+    os.makedirs(os.path.join(best_directory, "checkpoints"), exist_ok=True)
+    best_model.save_weights(os.path.join(best_directory, "checkpoints", "checkpoint.weights.h5"))
+
     with open(os.path.join(best_directory, "hyperparameters.json"), "w") as file:
         file.write(json.dumps(best_hp, indent=4))
     shutil.rmtree(hp_directory)
@@ -563,6 +573,7 @@ def run_all_windows(
         hp_minibatch_size ([type], optional): minibatch size hyperparameter grid. Defaults to HP_MINIBATCH_SIZE.
         standard_window_size (int, optional): standard number of years in test window. Defaults to 1.
     """
+
     # run the expanding window
     for interval in train_intervals:
         run_single_window(
