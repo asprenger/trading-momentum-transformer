@@ -1,0 +1,622 @@
+{
+    "ALL": {
+        "annual_return": [
+            0.008170294569027
+        ],
+        "annual_volatility": [
+            0.028009289167961002
+        ],
+        "sharpe_ratio": [
+            0.30450665590248804
+        ],
+        "downside_risk": [
+            0.019778020151931003
+        ],
+        "sortino_ratio": [
+            0.43123704563061205
+        ],
+        "max_drawdown": [
+            0.049254387226146
+        ],
+        "calmar_ratio": [
+            0.16587952929988
+        ],
+        "perc_pos_return": [
+            0.529085872576177
+        ],
+        "profit_loss_ratio": [
+            0.9442740939497051
+        ],
+        "annual_return_0_5_bps": [
+            0.006201866127988001
+        ],
+        "annual_volatility_0_5_bps": [
+            0.028009932147337
+        ],
+        "sharpe_ratio_0_5_bps": [
+            0.23472373372881902
+        ],
+        "downside_risk_0_5_bps": [
+            0.019834115340596002
+        ],
+        "sortino_ratio_0_5_bps": [
+            0.33147915811788004
+        ],
+        "max_drawdown_0_5_bps": [
+            0.051156145323972
+        ],
+        "calmar_ratio_0_5_bps": [
+            0.12123403920901502
+        ],
+        "perc_pos_return_0_5_bps": [
+            0.523545706371191
+        ],
+        "profit_loss_ratio_0_5_bps": [
+            0.9525069540421751
+        ],
+        "annual_return_1_0_bps": [
+            0.004237263919732
+        ],
+        "annual_volatility_1_0_bps": [
+            0.028010641137682
+        ],
+        "sharpe_ratio_1_0_bps": [
+            0.16494362655879402
+        ],
+        "downside_risk_1_0_bps": [
+            0.019890462347928
+        ],
+        "sortino_ratio_1_0_bps": [
+            0.232281012410319
+        ],
+        "max_drawdown_1_0_bps": [
+            0.053054115583647005
+        ],
+        "calmar_ratio_1_0_bps": [
+            0.079866827919346
+        ],
+        "perc_pos_return_1_0_bps": [
+            0.519390581717451
+        ],
+        "profit_loss_ratio_1_0_bps": [
+            0.9554675514254011
+        ],
+        "annual_return_1_5_bps": [
+            0.0022764805399850003
+        ],
+        "annual_volatility_1_5_bps": [
+            0.028011416133982003
+        ],
+        "sharpe_ratio_1_5_bps": [
+            0.09516682752160001
+        ],
+        "downside_risk_1_5_bps": [
+            0.019947062436875003
+        ],
+        "sortino_ratio_1_5_bps": [
+            0.13364161346035602
+        ],
+        "max_drawdown_1_5_bps": [
+            0.054948305517372
+        ],
+        "calmar_ratio_1_5_bps": [
+            0.041429494841587006
+        ],
+        "perc_pos_return_1_5_bps": [
+            0.512465373961218
+        ],
+        "profit_loss_ratio_1_5_bps": [
+            0.969108463135631
+        ],
+        "annual_return_2_0_bps": [
+            0.000319508598745
+        ],
+        "annual_volatility_2_0_bps": [
+            0.028012257130759003
+        ],
+        "sharpe_ratio_2_0_bps": [
+            0.025393829597887004
+        ],
+        "downside_risk_2_0_bps": [
+            0.020003918249741
+        ],
+        "sortino_ratio_2_0_bps": [
+            0.035559957571807
+        ],
+        "max_drawdown_2_0_bps": [
+            0.056838722622507006
+        ],
+        "calmar_ratio_2_0_bps": [
+            0.005621319128986
+        ],
+        "perc_pos_return_2_0_bps": [
+            0.509695290858725
+        ],
+        "profit_loss_ratio_2_0_bps": [
+            0.966715752722294
+        ],
+        "annual_return_2_5_bps": [
+            -0.001633659279766
+        ],
+        "annual_volatility_2_5_bps": [
+            0.028013164122069
+        ],
+        "sharpe_ratio_2_5_bps": [
+            -0.044374874397631006
+        ],
+        "downside_risk_2_5_bps": [
+            0.020061032549096
+        ],
+        "sortino_ratio_2_5_bps": [
+            -0.06196493806362
+        ],
+        "max_drawdown_2_5_bps": [
+            0.058725374381613
+        ],
+        "calmar_ratio_2_5_bps": [
+            -0.027818626904803002
+        ],
+        "perc_pos_return_2_5_bps": [
+            0.505540166204986
+        ],
+        "profit_loss_ratio_2_5_bps": [
+            0.9696825397322161
+        ],
+        "annual_return_3_0_bps": [
+            -0.0035830304571090005
+        ],
+        "annual_volatility_3_0_bps": [
+            0.028014137101502003
+        ],
+        "sharpe_ratio_3_0_bps": [
+            -0.11413879183354501
+        ],
+        "downside_risk_3_0_bps": [
+            0.020118408520481003
+        ],
+        "sortino_ratio_3_0_bps": [
+            -0.15893403097812903
+        ],
+        "max_drawdown_3_0_bps": [
+            0.060608268262470004
+        ],
+        "calmar_ratio_3_0_bps": [
+            -0.059117849095983006
+        ],
+        "perc_pos_return_3_0_bps": [
+            0.504155124653739
+        ],
+        "profit_loss_ratio_3_0_bps": [
+            0.9619356827814851
+        ],
+        "annual_return_rescaled": [
+            0.03502457799866088
+        ],
+        "annual_volatility_rescaled": [
+            0.15000000000000202
+        ],
+        "downside_risk_rescaled": [
+            0.10591854027424834
+        ],
+        "max_drawdown_rescaled": [
+            0.2449545542136323
+        ],
+        "annual_return_rescaled_0_5_bps": [
+            0.02424777623005636
+        ],
+        "annual_volatility_rescaled_0_5_bps": [
+            0.1500000000000036
+        ],
+        "downside_risk_rescaled_0_5_bps": [
+            0.10621651225143636
+        ],
+        "max_drawdown_rescaled_0_5_bps": [
+            0.2530118404731163
+        ],
+        "annual_return_rescaled_1_0_bps": [
+            0.013583171193927157
+        ],
+        "annual_volatility_rescaled_1_0_bps": [
+            0.15000000000000016
+        ],
+        "downside_risk_rescaled_1_0_bps": [
+            0.10651556804872961
+        ],
+        "max_drawdown_rescaled_1_0_bps": [
+            0.2609825955098178
+        ],
+        "annual_return_rescaled_1_5_bps": [
+            0.0030296691589781766
+        ],
+        "annual_volatility_rescaled_1_5_bps": [
+            0.1500000000000002
+        ],
+        "downside_risk_rescaled_1_5_bps": [
+            0.10681571225174365
+        ],
+        "max_drawdown_rescaled_1_5_bps": [
+            0.2688676990134159
+        ],
+        "annual_return_rescaled_2_0_bps": [
+            -0.007413814550127573
+        ],
+        "annual_volatility_rescaled_2_0_bps": [
+            0.15000000000000155
+        ],
+        "downside_risk_rescaled_2_0_bps": [
+            0.1071169568183926
+        ],
+        "max_drawdown_rescaled_2_0_bps": [
+            0.2766680228906279
+        ],
+        "annual_return_rescaled_2_5_bps": [
+            -0.017748355600817556
+        ],
+        "annual_volatility_rescaled_2_5_bps": [
+            0.1500000000000026
+        ],
+        "downside_risk_rescaled_2_5_bps": [
+            0.10741931433564354
+        ],
+        "max_drawdown_rescaled_2_5_bps": [
+            0.2843844313137749
+        ],
+        "annual_return_rescaled_3_0_bps": [
+            -0.02797502070081259
+        ],
+        "annual_volatility_rescaled_3_0_bps": [
+            0.15000000000000382
+        ],
+        "downside_risk_rescaled_3_0_bps": [
+            0.10772279963998554
+        ],
+        "max_drawdown_rescaled_3_0_bps": [
+            0.29201778076936274
+        ],
+        "sharpe_ratio_years": [
+            -0.596483084137127,
+            0.042683416077741,
+            2.722598180451133
+        ],
+        "sharpe_ratio_years_0_5_bps": [
+            -0.6440724314331191,
+            -0.044632571343048,
+            2.615681878621394
+        ],
+        "sharpe_ratio_years_1_0_bps": [
+            -0.6916522057703871,
+            -0.13194069161989,
+            2.508715345693222
+        ],
+        "sharpe_ratio_years_1_5_bps": [
+            -0.7392222030073,
+            -0.21923999887783102,
+            2.401699651109717
+        ],
+        "sharpe_ratio_years_2_0_bps": [
+            -0.786782219243173,
+            -0.306529547799664,
+            2.294635867061168
+        ],
+        "sharpe_ratio_years_2_5_bps": [
+            -0.834332050822535,
+            -0.393808393676963,
+            2.187525068433665
+        ],
+        "sharpe_ratio_years_3_0_bps": [
+            -0.8818714943393771,
+            -0.48107559246104803,
+            2.080368332757442
+        ]
+    },
+    "EQUITY_ETF": {
+        "annual_return": [
+            0.008170294569027
+        ],
+        "annual_volatility": [
+            0.028009289167961002
+        ],
+        "sharpe_ratio": [
+            0.30450665590248804
+        ],
+        "downside_risk": [
+            0.019778020151931003
+        ],
+        "sortino_ratio": [
+            0.43123704563061205
+        ],
+        "max_drawdown": [
+            0.049254387226146
+        ],
+        "calmar_ratio": [
+            0.16587952929988
+        ],
+        "perc_pos_return": [
+            0.529085872576177
+        ],
+        "profit_loss_ratio": [
+            0.9442740939497051
+        ],
+        "annual_return_0_5_bps": [
+            0.006201866127988001
+        ],
+        "annual_volatility_0_5_bps": [
+            0.028009932147337
+        ],
+        "sharpe_ratio_0_5_bps": [
+            0.23472373372881902
+        ],
+        "downside_risk_0_5_bps": [
+            0.019834115340596002
+        ],
+        "sortino_ratio_0_5_bps": [
+            0.33147915811788004
+        ],
+        "max_drawdown_0_5_bps": [
+            0.051156145323972
+        ],
+        "calmar_ratio_0_5_bps": [
+            0.12123403920901502
+        ],
+        "perc_pos_return_0_5_bps": [
+            0.523545706371191
+        ],
+        "profit_loss_ratio_0_5_bps": [
+            0.9525069540421751
+        ],
+        "annual_return_1_0_bps": [
+            0.004237263919732
+        ],
+        "annual_volatility_1_0_bps": [
+            0.028010641137682
+        ],
+        "sharpe_ratio_1_0_bps": [
+            0.16494362655879402
+        ],
+        "downside_risk_1_0_bps": [
+            0.019890462347928
+        ],
+        "sortino_ratio_1_0_bps": [
+            0.232281012410319
+        ],
+        "max_drawdown_1_0_bps": [
+            0.053054115583647005
+        ],
+        "calmar_ratio_1_0_bps": [
+            0.079866827919346
+        ],
+        "perc_pos_return_1_0_bps": [
+            0.519390581717451
+        ],
+        "profit_loss_ratio_1_0_bps": [
+            0.9554675514254011
+        ],
+        "annual_return_1_5_bps": [
+            0.0022764805399850003
+        ],
+        "annual_volatility_1_5_bps": [
+            0.028011416133982003
+        ],
+        "sharpe_ratio_1_5_bps": [
+            0.09516682752160001
+        ],
+        "downside_risk_1_5_bps": [
+            0.019947062436875003
+        ],
+        "sortino_ratio_1_5_bps": [
+            0.13364161346035602
+        ],
+        "max_drawdown_1_5_bps": [
+            0.054948305517372
+        ],
+        "calmar_ratio_1_5_bps": [
+            0.041429494841587006
+        ],
+        "perc_pos_return_1_5_bps": [
+            0.512465373961218
+        ],
+        "profit_loss_ratio_1_5_bps": [
+            0.969108463135631
+        ],
+        "annual_return_2_0_bps": [
+            0.000319508598745
+        ],
+        "annual_volatility_2_0_bps": [
+            0.028012257130759003
+        ],
+        "sharpe_ratio_2_0_bps": [
+            0.025393829597887004
+        ],
+        "downside_risk_2_0_bps": [
+            0.020003918249741
+        ],
+        "sortino_ratio_2_0_bps": [
+            0.035559957571807
+        ],
+        "max_drawdown_2_0_bps": [
+            0.056838722622507006
+        ],
+        "calmar_ratio_2_0_bps": [
+            0.005621319128986
+        ],
+        "perc_pos_return_2_0_bps": [
+            0.509695290858725
+        ],
+        "profit_loss_ratio_2_0_bps": [
+            0.966715752722294
+        ],
+        "annual_return_2_5_bps": [
+            -0.001633659279766
+        ],
+        "annual_volatility_2_5_bps": [
+            0.028013164122069
+        ],
+        "sharpe_ratio_2_5_bps": [
+            -0.044374874397631006
+        ],
+        "downside_risk_2_5_bps": [
+            0.020061032549096
+        ],
+        "sortino_ratio_2_5_bps": [
+            -0.06196493806362
+        ],
+        "max_drawdown_2_5_bps": [
+            0.058725374381613
+        ],
+        "calmar_ratio_2_5_bps": [
+            -0.027818626904803002
+        ],
+        "perc_pos_return_2_5_bps": [
+            0.505540166204986
+        ],
+        "profit_loss_ratio_2_5_bps": [
+            0.9696825397322161
+        ],
+        "annual_return_3_0_bps": [
+            -0.0035830304571090005
+        ],
+        "annual_volatility_3_0_bps": [
+            0.028014137101502003
+        ],
+        "sharpe_ratio_3_0_bps": [
+            -0.11413879183354501
+        ],
+        "downside_risk_3_0_bps": [
+            0.020118408520481003
+        ],
+        "sortino_ratio_3_0_bps": [
+            -0.15893403097812903
+        ],
+        "max_drawdown_3_0_bps": [
+            0.060608268262470004
+        ],
+        "calmar_ratio_3_0_bps": [
+            -0.059117849095983006
+        ],
+        "perc_pos_return_3_0_bps": [
+            0.504155124653739
+        ],
+        "profit_loss_ratio_3_0_bps": [
+            0.9619356827814851
+        ],
+        "annual_return_rescaled": [
+            0.03502457799866088
+        ],
+        "annual_volatility_rescaled": [
+            0.15000000000000202
+        ],
+        "downside_risk_rescaled": [
+            0.10591854027424834
+        ],
+        "max_drawdown_rescaled": [
+            0.2449545542136323
+        ],
+        "annual_return_rescaled_0_5_bps": [
+            0.02424777623005636
+        ],
+        "annual_volatility_rescaled_0_5_bps": [
+            0.1500000000000036
+        ],
+        "downside_risk_rescaled_0_5_bps": [
+            0.10621651225143636
+        ],
+        "max_drawdown_rescaled_0_5_bps": [
+            0.2530118404731163
+        ],
+        "annual_return_rescaled_1_0_bps": [
+            0.013583171193927157
+        ],
+        "annual_volatility_rescaled_1_0_bps": [
+            0.15000000000000016
+        ],
+        "downside_risk_rescaled_1_0_bps": [
+            0.10651556804872961
+        ],
+        "max_drawdown_rescaled_1_0_bps": [
+            0.2609825955098178
+        ],
+        "annual_return_rescaled_1_5_bps": [
+            0.0030296691589781766
+        ],
+        "annual_volatility_rescaled_1_5_bps": [
+            0.1500000000000002
+        ],
+        "downside_risk_rescaled_1_5_bps": [
+            0.10681571225174365
+        ],
+        "max_drawdown_rescaled_1_5_bps": [
+            0.2688676990134159
+        ],
+        "annual_return_rescaled_2_0_bps": [
+            -0.007413814550127573
+        ],
+        "annual_volatility_rescaled_2_0_bps": [
+            0.15000000000000155
+        ],
+        "downside_risk_rescaled_2_0_bps": [
+            0.1071169568183926
+        ],
+        "max_drawdown_rescaled_2_0_bps": [
+            0.2766680228906279
+        ],
+        "annual_return_rescaled_2_5_bps": [
+            -0.017748355600817556
+        ],
+        "annual_volatility_rescaled_2_5_bps": [
+            0.1500000000000026
+        ],
+        "downside_risk_rescaled_2_5_bps": [
+            0.10741931433564354
+        ],
+        "max_drawdown_rescaled_2_5_bps": [
+            0.2843844313137749
+        ],
+        "annual_return_rescaled_3_0_bps": [
+            -0.02797502070081259
+        ],
+        "annual_volatility_rescaled_3_0_bps": [
+            0.15000000000000382
+        ],
+        "downside_risk_rescaled_3_0_bps": [
+            0.10772279963998554
+        ],
+        "max_drawdown_rescaled_3_0_bps": [
+            0.29201778076936274
+        ],
+        "sharpe_ratio_years": [
+            -0.596483084137127,
+            0.042683416077741,
+            2.722598180451133
+        ],
+        "sharpe_ratio_years_0_5_bps": [
+            -0.6440724314331191,
+            -0.044632571343048,
+            2.615681878621394
+        ],
+        "sharpe_ratio_years_1_0_bps": [
+            -0.6916522057703871,
+            -0.13194069161989,
+            2.508715345693222
+        ],
+        "sharpe_ratio_years_1_5_bps": [
+            -0.7392222030073,
+            -0.21923999887783102,
+            2.401699651109717
+        ],
+        "sharpe_ratio_years_2_0_bps": [
+            -0.786782219243173,
+            -0.306529547799664,
+            2.294635867061168
+        ],
+        "sharpe_ratio_years_2_5_bps": [
+            -0.834332050822535,
+            -0.393808393676963,
+            2.187525068433665
+        ],
+        "sharpe_ratio_years_3_0_bps": [
+            -0.8818714943393771,
+            -0.48107559246104803,
+            2.080368332757442
+        ]
+    }
+}

@@ -665,7 +665,7 @@ class TftDeepMomentumNetworkModel(DeepMomentumNetworkModel):
         #     if i in self._static_input_loc:
         #         raise ValueError("Observation cannot be static!")
 
-        if all_inputs.get_shape().as_list()[-1] != self.input_size:
+        if all_inputs.shape[-1] != self.input_size:
             raise ValueError(
                 "Illegal number of inputs! Inputs observed={}, expected={}".format(
                     all_inputs.get_shape().as_list()[-1], self.input_size
