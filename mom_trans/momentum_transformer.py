@@ -4,8 +4,8 @@ from tensorflow import keras
 import gc
 import numpy as np
 
-concat = keras.backend.concatenate
-stack = keras.backend.stack
+#concat = keras.backend.concatenate
+#stack = keras.backend.stack
 K = keras.backend
 Add = keras.layers.Add
 LayerNorm = keras.layers.LayerNormalization
@@ -28,6 +28,10 @@ def tf_stack(x, axis=0):
     if not isinstance(x, list):
         x = [x]
     return K.stack(x, axis=axis)
+
+def stack_keras_tensors(tensors, axis=0):
+    """Stacks a list of rank-`R` tensors into one rank-`(R+1)` tensor."""
+    return keras.ops.concatenate([keras.ops.expand_dims(t, axis=axis) for t in tensors], axis=axis)
 
 
 # Layer utility functions.
@@ -186,6 +190,10 @@ def gated_residual_network(
     else:
         return add_and_norm([skip, gating_layer])
 
+from keras import Layer
+class GetShapeLayer(Layer):
+    def call(self, x):
+        return tf.shape(x)
 
 # Attention Components.
 def get_decoder_mask(self_attn_inputs):
@@ -193,9 +201,24 @@ def get_decoder_mask(self_attn_inputs):
     Args:
         self_attn_inputs: Inputs to self attention layer to determine mask shape
     """
-    len_s = tf.shape(self_attn_inputs)[-2]
-    bs = tf.shape(self_attn_inputs)[:-2]
-    mask = tf.cumsum(tf.eye(len_s, batch_shape=bs), -2)
+    #len_s = tf.shape(self_attn_inputs)[-2]
+    #bs = tf.shape(self_attn_inputs)[:-2]
+    #mask = tf.cumsum(tf.eye(len_s, batch_shape=bs), -2)
+
+    print(self_attn_inputs)
+    exit(0)
+
+    shape = GetShapeLayer()(self_attn_inputs)
+    print(shape)
+    print(shape[-2])
+    print(shape[:-2])
+    exit(0)
+
+    len_s = shape[-2]
+    bs = shape[:-2]
+    mask = keras.ops.cumsum(keras.ops.eye(len_s, batch_shape=bs), -2)
+
+
     return mask
 
 
@@ -368,7 +391,7 @@ class TftDeepMomentumNetworkModel(DeepMomentumNetworkModel):
         ) = self.get_tft_embeddings(all_inputs)
 
         if unknown_inputs is not None:
-            historical_inputs = concat(
+            historical_inputs = keras.ops.concatenate(
                 [
                     unknown_inputs,
                     known_combined_layer,
@@ -376,7 +399,7 @@ class TftDeepMomentumNetworkModel(DeepMomentumNetworkModel):
                 axis=-1,
             )
         else:
-            historical_inputs = concat(
+            historical_inputs = keras.ops.concatenate(
                 [
                     known_combined_layer,
                 ],
@@ -394,11 +417,17 @@ class TftDeepMomentumNetworkModel(DeepMomentumNetworkModel):
             """
 
             # Add temporal features
-            _, num_static, static_dim = embedding.get_shape().as_list()[-3:]
+            #_, num_static, static_dim = embedding.get_shape().as_list()[-3:]
+            _, num_static, static_dim = embedding.shape[-3:]
+            #shape = tf.shape(embedding)
+            shape = embedding.shape
 
-            shape = tf.shape(embedding)
-            flatten = tf.reshape(
-                embedding, tf.concat([shape[:-2], [num_static * static_dim]], axis=-1)
+            #flatten = tf.reshape(
+            #    embedding, tf.concat([shape[:-2], [num_static * static_dim]], axis=-1)
+            #)
+
+            flatten = keras.ops.reshape(
+                embedding, list(shape[:-2]) + [num_static * static_dim]
             )
 
             # Nonlinear transformation with gated residual network.
@@ -476,14 +505,20 @@ class TftDeepMomentumNetworkModel(DeepMomentumNetworkModel):
             """
 
             # Add temporal features
-            time_steps, embedding_dim, num_inputs = embedding.get_shape().as_list()[-3:]
+            #time_steps, embedding_dim, num_inputs = embedding.get_shape().as_list()[-3:]
+            time_steps, embedding_dim, num_inputs = list(embedding.shape)[-3:]
 
-            batch_dimensions = tf.shape(embedding)[:-3]
+            #batch_dimensions = tf.shape(embedding)[:-3]
+            batch_dimensions = list(embedding.shape)[:-3]
+
             # new_shape = [-1, time_steps, embedding_dim * num_inputs]
-            new_shape = tf.concat(
-                [batch_dimensions, [time_steps, embedding_dim * num_inputs]], axis=-1
-            )
-            flatten = tf.reshape(embedding, shape=new_shape)
+            #new_shape = tf.concat(
+            #    [batch_dimensions, [time_steps, embedding_dim * num_inputs]], axis=-1
+            #)
+            new_shape = batch_dimensions + [time_steps, embedding_dim * num_inputs]
+            
+            #flatten = tf.reshape(embedding, shape=new_shape)
+            flatten = keras.ops.reshape(embedding, newshape=new_shape)
 
             if static_inputs is not None:
                 expanded_static_context = Lambda(tf.expand_dims, arguments={"axis": 1})(
@@ -642,6 +677,7 @@ class TftDeepMomentumNetworkModel(DeepMomentumNetworkModel):
 
         return model
 
+
     def get_tft_embeddings(self, all_inputs):
         """Transforms raw inputs to embeddings.
 
@@ -718,7 +754,9 @@ class TftDeepMomentumNetworkModel(DeepMomentumNetworkModel):
                 for i in range(num_categorical_variables)
                 if i + num_regular_variables in self._static_input_loc
             ]
-            static_inputs = keras.backend.stack(static_inputs, axis=1)
+            #static_inputs = keras.backend.stack(static_inputs, axis=1)
+            static_inputs = stack_keras_tensors(static_inputs, axis=1)
+            
 
         else:
             static_inputs = None
@@ -758,7 +796,10 @@ class TftDeepMomentumNetworkModel(DeepMomentumNetworkModel):
                 unknown_inputs.append(e)
 
         if unknown_inputs + wired_embeddings:
-            unknown_inputs = keras.backend.stack(
+            #unknown_inputs = keras.backend.stack(
+            #    unknown_inputs + wired_embeddings, axis=-1
+            #)
+            unknown_inputs = stack_keras_tensors(
                 unknown_inputs + wired_embeddings, axis=-1
             )
         else:
@@ -776,7 +817,10 @@ class TftDeepMomentumNetworkModel(DeepMomentumNetworkModel):
             if i + num_regular_variables not in self._static_input_loc
         ]
 
-        known_combined_layer = keras.backend.stack(
+        #known_combined_layer = keras.backend.stack(
+        #    known_regular_inputs + known_categorical_inputs, axis=-1
+        #)
+        known_combined_layer = stack_keras_tensors(
             known_regular_inputs + known_categorical_inputs, axis=-1
         )
 
